@@ -1,0 +1,168 @@
+#3-2
+#include <stdio.h>
+
+#define
+
+void escape(char s[], const char t[]) {
+    int i, j;
+    for (i = 0, j = 0; t[i] != '\0' && j < MAX_LENGTH - 1; i++) {
+        switch (t[i]) {
+            case '\n':
+                s[j++] = '\\';
+                s[j++] = 'n';
+                break;
+            case '\t':
+                s[j++] = '\\';
+                s[j++] = 't';
+                break;
+            default:
+                s[j++] = t[i]; 
+                break;
+        }
+    }
+    s[j] = '\0'; // Null-terminate the string
+}
+
+void unescape(char s[], const char t[]) {
+    int i, j;
+    for (i = 0, j = 0; t[i] != '\0' && j < MAX_LENGTH - 1; i++) {
+        if (t[i] == '\\') {
+            switch (t[i + 1]) {
+                case 'n':
+                    s[j++] = '\n';
+                    i++; 
+                    break;
+                case 't':
+                    s[j++] = '\t';
+                    i++; 
+                    break;
+                default:
+                    s[j++] = t[i]; 
+                    break;
+            }
+        } else {
+            s[j++] = t[i]; 
+        }
+    }
+    s[j] = '\0'; 
+}
+
+int main() {
+    char escaped[MAX_LENGTH];
+    char unescaped[MAX_LENGTH];
+
+    const char *input = "Hello";
+
+   
+    escape(escaped, input);
+    printf("Escaped: %s\n", escaped);
+
+  
+    unescape(unescaped, escaped);
+    printf("Unescaped: %s", unescaped); 
+
+    return 0;
+}
+
+#3-3
+#include <stdio.h>
+#include <string.h>
+
+#define 
+
+void expand(const char s1[], char s2[]) {
+    int i = 0, j = 0;
+
+    while (s1[i] != '\0' && j < MAX_LENGTH - 1) {
+        if (s1[i] == '-') {
+            char start = s1[i - 1];
+            char end = s1[i + 1];
+
+            
+            if (start >= 'a' && start <= 'z' && end >= 'a' && end <= 'z' && start < end) {
+                for (char c = start + 1; c < end; c++) {
+                    s2[j++] = c; 
+                }
+            } else if (start >= 'A' && start <= 'Z' && end >= 'A' && end <= 'Z' && start < end) {
+                for (char c = start + 1; c < end; c++) {
+                    s2[j++] = c; 
+                }
+            } else if (start >= '0' && start <= '9' && end >= '0' && end <= '9' && start < end) {
+                for (char c = start + 1; c < end; c++) {
+                    s2[j++] = c; 
+                }
+            }
+           
+            s2[j++] = end;
+            i += 2; 
+        } else {
+            s2[j++] = s1[i++]; 
+        }
+    }
+    s2[j] = '\0'; 
+}
+
+int main() {
+    char input[MAX_LENGTH];
+    char output[MAX_LENGTH];
+
+    printf("Enter shorthand notation (e.g., a-z, 0-9, a-b-c):\n");
+    fgets(input, sizeof(input), stdin); 
+    expand(input, output); 
+    printf("Expanded: %s\n", output); 
+
+    return 0;
+}
+
+#3-5
+#include <stdio.h>
+
+#define 
+
+void itob(int n, char s[], int b) {
+    int i = 0; 
+    unsigned int num = (n < 0 && b == 10) ? -n : n; 
+
+    do {
+        int digit = num % b; 
+        if (digit < 10) {
+            s[i++] = '0' + digit; 
+        } else {
+            s[i++] = 'A' + (digit - 10); 
+        }
+        num /= b; 
+    } while (num > 0);
+
+    if (n < 0 && b == 10) {
+        s[i++] = '-';
+    }
+
+    s[i] = '\0'; 
+   
+    for (int j = 0; j < i / 2; j++) {
+        char temp = s[j];
+        s[j] = s[i - j - 1];
+        s[i - j - 1] = temp;
+    }
+}
+
+int main() {
+    char output[MAX_LENGTH];
+    int number, base;
+
+    printf("Enter an integer: ");
+    scanf("%d", &number); 
+    printf("Enter base (2-36): ");
+    scanf("%d", &base); 
+
+    if (base < 2 || base > 36) {
+        printf("Base must be between 2 and 36.\n");
+        return 1; 
+    }
+
+    itob(number, output, base);
+    printf("Representation of %d in base %d: %s\n", number, base, output); 
+
+    return 0; 
+}
+
