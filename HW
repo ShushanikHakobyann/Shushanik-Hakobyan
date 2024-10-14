@@ -292,3 +292,118 @@ int main() {
 
     return 0;
 }
+
+
+#Create a C program that checks whether user provided number
+can be expressed as a sum of two Prime numbers, if yes then
+show all possible combinations. Use functions in the
+implementation.
+#include <stdio.h>
+#include <stdbool.h>
+
+bool isPrime(int num) {
+    if (num <= 1)
+        return false;
+    for (int i = 2; i <= num / 2; i++) {
+        if (num % i == 0)
+            return false;
+    }
+    return true;
+}
+
+void findPrimePairs(int num) {
+    bool found = false;
+    printf("Prime pairs that sum up to %d are:\n", num);
+
+    for (int i = 2; i <= num / 2; i++) {
+        int secondNum = num - i;
+        if (isPrime(i) && isPrime(secondNum)) {
+            printf("%d + %d = %d\n", i, secondNum, num);
+            found = true;
+        }
+    }
+
+    if (!found) {
+        printf("No prime pairs found for %d.\n", num);
+    }
+}
+
+int main() {
+    int number;
+    printf("Enter a number: ");
+    scanf("%d", &number);
+    findPrimePairs(number);
+    return 0;
+}
+
+
+#Create a C calculator program that provides the operators ‘+’, ‘-’,
+‘*’, ‘/’, ‘%’ and reads the expressions in the infix notation. After
+calculating the expression result it should print result and allow
+another expression to be entered by the user. The program should
+exit when EOF is read.
+#include <stdio.h>
+
+int main() {
+    int num1, num2;
+    char operator;
+    
+    while (scanf("%d %c %d", &num1, &operator, &num2) != EOF) {
+        switch (operator) {
+            case '+':
+                printf("%d\n", num1 + num2);
+                break;
+            case '-':
+                printf("%d\n", num1 - num2);
+                break;
+            case '*':
+                printf("%d\n", num1 * num2);
+                break;
+            case '/':
+                if (num2 != 0)
+                    printf("%d\n", num1 / num2);
+                else
+                    printf("Error: Division by zero\n");
+                break;
+            case '%':
+                if (num2 != 0)
+                    printf("%d\n", num1 % num2);
+                else
+                    printf("Error: Division by zero\n");
+                break;
+            default:
+                printf("Error: Invalid operator\n");
+                break;
+        }
+    }
+    
+    return 0;
+}
+
+#Write a C program that generates and prints a pyramid pattern of ‘*’
+characters based on user input number of rows. The program should
+take an integer as input (n) from the user and then generate a
+pyramid pattern of n rows. Use functions to implement the pattern
+generation.
+
+#include <stdio.h>
+
+void printPyramid(int rows) {
+    for (int i = 1; i <= rows; i++) {
+        for (int j = 1; j <= i; j++) {
+            printf("* ");
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int n;
+    
+    printf("Input number of rows: ");
+    scanf("%d", &n);
+    
+    printPyramid(n);
+    
+    return 0;
+}
